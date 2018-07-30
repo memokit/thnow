@@ -14,7 +14,7 @@ func New(t time.Time) *THNow {
 	return &THNow{t}
 }
 
-// BeginningOfMinute beginning of minute
+// BeginningOfMinute beginning of minute.
 func BeginningOfMinute() time.Time {
 	return New(time.Now()).BeginningOfMinute()
 }
