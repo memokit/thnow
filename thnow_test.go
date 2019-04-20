@@ -12,7 +12,7 @@ func TestDate(t *testing.T) {
 
 	// dstDay := time.Date(2018, 12, 14, 0, 0, 0, 0, location)
 
-	xx, _ := toDate("14-ธ.ค.-1987", 15, 0, 0, 0)
+	xx, _ := String("14-ธ.ค.-1987").toDate(15, 0, 0, 0)
 
 	// if xx != dstDay {
 	// 	t.Errorf("Failed")
@@ -28,7 +28,12 @@ func TestDate(t *testing.T) {
 
 	log.Println("##################")
 
-	tdStr, _ := toString(xx, "EN", "02 Jan 2006", "F")
+	tdStr, _ := Date(xx).toString("TH", "02 Jan 2006", "F")
 	log.Println(tdStr)
+
+	log.Println("**********************")
+
+	yy, _ := String("14-ธ.ค.-2560").toDate()
+	log.Println(yy.Format("02-Jan-2006 15:04:05 "))
 
 }
