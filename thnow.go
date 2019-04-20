@@ -9,7 +9,7 @@ import (
 /**
 * Convet time.Time To Date String format
 **/
-func (date DateNow) toString(chronology string, pattern string, format string) (string, error) {
+func (date DateNow) ToString(chronology string, pattern string, format string) (string, error) {
 	var defaultFormat = "02 Jan 2006 15:04:05"
 	var result = time.Now().Format(defaultFormat)
 	var err error
@@ -121,7 +121,7 @@ func (date DateNow) toString(chronology string, pattern string, format string) (
 
 // toD Convet Date String To time.Time
 // dateStr
-func (dateStr StringNow) toDate(optional ...int) (time.Time, error) {
+func (dateStr StringNow) ToDate(optional ...int) (time.Time, error) {
 	var result = time.Now()
 	var err error
 	var day, month, year int
