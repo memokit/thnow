@@ -7,10 +7,9 @@ import (
 )
 
 // ToString Convet time.Time To Date String format
-func (date DateNow) ToString(optional ...string) (string, error) {
+func (date DateNow) ToString(optional ...string) string {
 	var defaultFormat = "02 Jan 2006 15:04:05"
 	var result = time.Now().Format(defaultFormat)
-	var err error
 	day := date.Day()
 	weekday := int(date.Weekday())
 	month := int(date.Month())
@@ -54,7 +53,7 @@ func (date DateNow) ToString(optional ...string) (string, error) {
 
 			result = strconv.Itoa(day) + " " + monthArr[month-1] + " " + strconv.Itoa(year)
 		} else {
-			monthArr := [12]string{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"}
+			monthArr := [12]string{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
 
 			result = strconv.Itoa(day) + " " + monthArr[month-1] + " " + strconv.Itoa(year)
 		}
@@ -83,13 +82,12 @@ func (date DateNow) ToString(optional ...string) (string, error) {
 		}
 	}
 
-	return result, err
+	return result
 }
 
 // ToDate Convet Date String To time.Time
-func (dateStr StringNow) ToDate(optional ...int) (time.Time, error) {
+func (dateStr StringNow) ToDate(optional ...int) time.Time {
 	var result = time.Now()
-	var err error
 	var day, month, year int
 	var dateArr []string
 	hour, minute, second, millisecond := 0, 0, 0, 0
@@ -112,7 +110,7 @@ func (dateStr StringNow) ToDate(optional ...int) (time.Time, error) {
 
 		thaiMonthArr := [24]string{
 			"ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.",
-			"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"}
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
 
 		for index, m := range thaiMonthArr {
 			if dateArr[1] == m {
@@ -148,5 +146,30 @@ func (dateStr StringNow) ToDate(optional ...int) (time.Time, error) {
 
 	result = time.Date(year, time.Month(month), day, hour, minute, second, millisecond, time.UTC)
 
-	return result, err
+	return result
+}
+
+// Minute get minute
+func (date DateNow) Minute() int {
+	return date.Time.Minute()
+}
+
+// Hour get hour
+func (date DateNow) Hour() int {
+	return date.Time.Hour()
+}
+
+// Day get day
+func (date DateNow) Day() int {
+	return date.Time.Day()
+}
+
+// Month get month
+func (date DateNow) Month() int {
+	return int(date.Time.Month())
+}
+
+// Year get year
+func (date DateNow) Year() int {
+	return int(date.Time.Year())
 }
