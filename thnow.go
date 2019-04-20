@@ -6,10 +6,8 @@ import (
 	"time"
 )
 
-/**
-* Convet time.Time To Date String format
-**/
-func (date DateNow) ToString(chronology string, pattern string, format string) (string, error) {
+// ToString Convet time.Time To Date String format
+func (date DateNow) ToString(optional ...string) (string, error) {
 	var defaultFormat = "02 Jan 2006 15:04:05"
 	var result = time.Now().Format(defaultFormat)
 	var err error
@@ -17,6 +15,28 @@ func (date DateNow) ToString(chronology string, pattern string, format string) (
 	weekday := int(date.Weekday())
 	month := int(date.Month())
 	year := date.Year()
+
+	chronology, format, pattern := "TH", "M", ""
+
+	if len(optional) > 0 && len(optional) <= 1 {
+		if optional[0] == "EN" || optional[0] == "TH" {
+			chronology = optional[0]
+		}
+
+	} else if len(optional) > 1 && len(optional) <= 2 {
+		chronology = optional[0]
+
+		if optional[1] == "M" || optional[1] == "F" {
+			format = optional[1]
+		} else {
+			pattern = optional[1]
+		}
+
+	} else if len(optional) > 2 && len(optional) <= 3 {
+		chronology = optional[0]
+		format = optional[1]
+		pattern = optional[2]
+	}
 
 	if chronology == "TH" {
 		if year < 2300 {
@@ -28,7 +48,7 @@ func (date DateNow) ToString(chronology string, pattern string, format string) (
 		}
 	}
 
-	if format == "M" {
+	if format == "M" && pattern == "" {
 		if chronology == "TH" {
 			monthArr := [12]string{"ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."}
 
@@ -38,7 +58,7 @@ func (date DateNow) ToString(chronology string, pattern string, format string) (
 
 			result = strconv.Itoa(day) + " " + monthArr[month-1] + " " + strconv.Itoa(year)
 		}
-	} else if format == "F" {
+	} else if format == "F" && pattern == "" {
 
 		if chronology == "TH" {
 			dayArr := [7]string{"อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์", "เสาร์"}
@@ -66,61 +86,7 @@ func (date DateNow) ToString(chronology string, pattern string, format string) (
 	return result, err
 }
 
-/**
-* Convet Date String To time.Time
-**/
-// func toDate(dateStr string, hour int, minute int, second int, millisecond int) (time.Time, error) {
-// 	var result = time.Now()
-// 	var err error
-// 	var day int
-// 	var month int
-// 	var year int
-// 	var dateArr []string
-
-// 	if len(strings.TrimSpace(dateStr)) == 0 {
-// 		dateStr = time.Now().Format("02/01/2006")
-// 	}
-
-// 	if dateArr = strings.Split(dateStr, "/"); len(dateArr) != 3 {
-// 		if dateArr = strings.Split(dateStr, " "); len(dateArr) != 3 {
-// 			dateArr = strings.Split(dateStr, "-")
-// 		}
-// 	}
-
-// 	day, _ = strconv.Atoi(dateArr[0])
-// 	month, _ = strconv.Atoi(dateArr[1])
-// 	year, _ = strconv.Atoi(dateArr[2])
-
-// 	if len(dateArr) == 3 {
-
-// 		thaiMonthArr := [24]string{
-// 			"ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค.",
-// 			"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"}
-
-// 		for index, m := range thaiMonthArr {
-// 			if dateArr[1] == m {
-// 				month = index + 1
-
-// 				if month > 12 {
-// 					month = month - 12
-// 				}
-// 				break
-// 			}
-// 		}
-// 	}
-
-// 	if year > 2300 {
-// 		year = year - 543
-// 	}
-
-// 	result = time.Date(year, time.Month(month), day, hour, minute, second, millisecond, time.UTC)
-
-// 	return result, err
-
-// }
-
-// toD Convet Date String To time.Time
-// dateStr
+// ToDate Convet Date String To time.Time
 func (dateStr StringNow) ToDate(optional ...int) (time.Time, error) {
 	var result = time.Now()
 	var err error
